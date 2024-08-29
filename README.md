@@ -20,7 +20,7 @@ $name = Sprompt::text('What is your name?');
 
 // Input the name... e.g. Maeve Millay
 
-Sprompt::info('You said that your name is {$name}');
+Sprompt::info("You said that your name is {$name}");
 
 // Output: You said that your name is Maeve Millay
 ```
