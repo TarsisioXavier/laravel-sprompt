@@ -1,1 +1,0 @@
-{"version":1,"defects":{"Laravel\\Sprompt\\Test\\Unit\\SpromptTest::test_if_ok":5,"Laravel\\Sprompt\\Tests\\Unit\\SpromptTest::test_if_ok":8},"times":{"Laravel\\Sprompt\\Test\\Unit\\SpromptTest::test_if_ok":2.245,"Laravel\\Sprompt\\Tests\\Unit\\SpromptTest::test_if_ok":0.016,"TarsisioXavier\\Sprompt\\Tests\\Unit\\SpromptTest::test_if_ok":0.014}}
