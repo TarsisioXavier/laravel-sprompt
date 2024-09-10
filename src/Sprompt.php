@@ -31,33 +31,46 @@ use Laravel\Prompts\Progress;
  */
 class Sprompt
 {
-    static array $FUNCTIONS = [
-        'text',
-        'textarea',
-        'password',
-        'select',
-        'multiselect',
-        'confirm',
-        'pause',
-        'suggest',
-        'search',
-        'multisearch',
-        'spin',
-        'table',
-        'note',
-        'error',
-        'warning',
-        'info',
-        'alert',
-        'intro',
-        'outro',
-        'progress',
-        'form'
-    ];
-
-    public static function __callStatic($name, $arguments)
+    /**
+     * Calls the clss' function statically.
+     *
+     * @param  string  $name
+     * @param  array<int, mixed>  $arguments
+     *
+     * @return mixed
+     */
+    public static function __callStatic(string $name, array $arguments): mixed
     {
-        if (!in_array($name, static::$FUNCTIONS)) {
+        return static::callHelperFunction($name, $arguments);
+    }
+
+
+    /**
+     * Calls the class' function.
+     *
+     * @param  string  $name
+     * @param  array<int, mixed>  $arguments
+     *
+     * @return mixed
+     */
+    public function __call(string $name, array $arguments): mixed
+    {
+        return $this::callHelperFunction($name, $arguments);
+    }
+
+    /**
+     * Returns the qualified name of the function if it exists.
+     *
+     * @param  string  $name
+     *
+     * @return callable
+     * @throws BadMethodCallException
+     */
+    protected static function resolveFunction(string $name): callable
+    {
+        $function = '\\Laravel\\Prompts\\' . $name;
+
+        if (!function_exists($function) || !is_callable($function)) {
             throw new BadMethodCallException(
                 sprintf(
                     'Call to undefined method %s::%s()',
@@ -67,7 +80,20 @@ class Sprompt
             );
         }
 
-        $function = '\\Laravel\\Prompts\\' . $name;
+        return $function;
+    }
+
+    /**
+     * Calls the helper function.
+     *
+     * @param  string  $name
+     * @param  array<int, mixed>  $arguments
+     *
+     * @return mixed
+     */
+    protected static function callHelperFunction(string $name, array $arguments): mixed
+    {
+        $function = static::resolveFunction($name);
 
         return $function(...$arguments);
     }
